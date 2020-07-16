@@ -3,3 +3,21 @@
 ################################################################################
 
 /.vs
+/src/api/Livraria/bin/Debug
+/src/api/Livraria/.vscode
+/src/api/Livraria/.vs/Livraria
+/src/api/Livraria/Livraria.Api/bin/Debug/netcoreapp3.1
+/src/api/Livraria/Livraria.Api/obj
+/src/api/Livraria/Livraria.Application/bin/Debug/netcoreapp3.1
+/src/api/Livraria/Livraria.Application/obj
+/src/api/Livraria/Livraria.Domain/bin/Debug/netcoreapp3.1
+/src/api/Livraria/Livraria.Domain/obj
+/src/api/Livraria/Livraria.Infrastructure/bin/Debug/netcoreapp3.1
+/src/api/Livraria/Livraria.Infrastructure/obj
+/src/api/Livraria/obj
+/src/api/Livraria/XUnitTestLivraria/bin/Debug/netcoreapp3.1
+/src/api/Livraria/XUnitTestLivraria/obj
+/src/client/.vs
+/src/client/livraria-app/e2e
+/src/client/Dockerfile
+/src/api/Livraria/Livraria.Api/Dockerfile_
