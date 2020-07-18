@@ -33,6 +33,8 @@ namespace Livraria.Infrastructure.Mapping
             builder.Property(c => c.Titulo)
                 .HasMaxLength(200)
                 .IsRequired();
+            builder.Property(b => b.DataCadastramento)
+                .HasDefaultValueSql("getdate()");
         }
     }
 }

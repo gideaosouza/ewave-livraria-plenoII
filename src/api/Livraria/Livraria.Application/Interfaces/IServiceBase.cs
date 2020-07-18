@@ -11,7 +11,7 @@ namespace Livraria.Application.Interfaces
     {
         Task<TEntity> Insert(TEntity obj);
         Task<TEntity> Find(int id);
-        Task Update(TEntity obj);
+        Task Update(int id,TEntity obj);
         Task Desabilitar(TEntity obj);
         Task Habilitar(TEntity obj);
         Task<IEnumerable<TEntity>> GetAll();

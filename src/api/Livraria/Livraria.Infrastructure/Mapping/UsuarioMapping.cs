@@ -31,6 +31,9 @@ namespace Livraria.Infrastructure.Mapping
 
             builder.Property(c => c.Endereco)
                 .HasMaxLength(500);
+
+            builder.Property(b => b.DataCadastramento)
+                .HasDefaultValueSql("getdate()");
         }
     }
 }

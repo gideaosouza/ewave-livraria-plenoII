@@ -26,6 +26,8 @@ namespace Livraria.Infrastructure.Context
         public DbSet<Usuario> Usuarios { get; set; }
         public DbSet<Livro> Livros { get; set; }
         public DbSet<InstituicaoEnsino> InstituicoesEnsino { get; set; }
+        public DbSet<EmprestimoLivro> EmprestimosLivros { get; set; }
+        public DbSet<LivroReserva> ReservasLivros { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

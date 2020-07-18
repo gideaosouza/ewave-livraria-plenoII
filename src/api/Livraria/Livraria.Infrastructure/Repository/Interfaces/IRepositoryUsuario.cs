@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Livraria.Infrastructure.Repository.Interfaces
 {
-    public interface IRepositoryUsuario 
+    public interface IRepositoryUsuario : IAsyncRepository<Usuario>
     {
     }
 }

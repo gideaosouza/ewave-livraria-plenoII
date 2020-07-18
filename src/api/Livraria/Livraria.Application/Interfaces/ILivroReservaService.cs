@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Livraria.Application.Interfaces
 {
-    public interface IUsuarioService : IServiceBase<Usuario>
+    public interface ILivroReservaService : IServiceBase<LivroReserva>
     {
     }
 }

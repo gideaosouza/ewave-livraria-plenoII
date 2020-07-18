@@ -4,14 +4,16 @@ using Livraria.Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Livraria.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200717221748_emprestimo_reserva")]
+    partial class emprestimo_reserva
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -50,7 +52,49 @@ namespace Livraria.Infrastructure.Migrations
                     b.ToTable("EmprestimosLivros");
                 });
 
-            modelBuilder.Entity("Livraria.Domain.Entities.InstituicaoEnsino", b =>
+            modelBuilder.Entity("Livraria.Domain.Entities.Livro", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Autor")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(200)")
+                        .HasMaxLength(200);
+
+                    b.Property<string>("Capa")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(1000)")
+                        .HasMaxLength(1000);
+
+                    b.Property<DateTime?>("DataCadastramento")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Genero")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(200)")
+                        .HasMaxLength(200);
+
+                    b.Property<bool>("Habilitado")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Sinopse")
+                        .HasColumnType("nvarchar(200)")
+                        .HasMaxLength(200);
+
+                    b.Property<string>("Titulo")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(200)")
+                        .HasMaxLength(200);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Livros");
+                });
+
+            modelBuilder.Entity("Livraria.Domain.Entities.LivroEmprestimo", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -63,9 +107,7 @@ namespace Livraria.Infrastructure.Migrations
                         .HasMaxLength(15);
 
                     b.Property<DateTime?>("DataCadastramento")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("getdate()");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Endereco")
                         .IsRequired()
@@ -88,50 +130,6 @@ namespace Livraria.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("IntituicoesEnsino");
-                });
-
-            modelBuilder.Entity("Livraria.Domain.Entities.Livro", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Autor")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(200)")
-                        .HasMaxLength(200);
-
-                    b.Property<string>("Capa")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(1000)")
-                        .HasMaxLength(1000);
-
-                    b.Property<DateTime?>("DataCadastramento")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("getdate()");
-
-                    b.Property<string>("Genero")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(200)")
-                        .HasMaxLength(200);
-
-                    b.Property<bool>("Habilitado")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Sinopse")
-                        .HasColumnType("nvarchar(200)")
-                        .HasMaxLength(200);
-
-                    b.Property<string>("Titulo")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(200)")
-                        .HasMaxLength(200);
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Livros");
                 });
 
             modelBuilder.Entity("Livraria.Domain.Entities.LivroReserva", b =>
@@ -178,12 +176,10 @@ namespace Livraria.Infrastructure.Migrations
                         .HasMaxLength(11);
 
                     b.Property<DateTime?>("DataCadastramento")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("getdate()");
+                        .HasColumnType("datetime2");
 
-                    b.Property<string>("Email")
-                        .HasColumnType("nvarchar(200)")
+                    b.Property<int>("Email")
+                        .HasColumnType("int")
                         .HasMaxLength(200);
 
                     b.Property<string>("Endereco")
@@ -244,7 +240,7 @@ namespace Livraria.Infrastructure.Migrations
 
             modelBuilder.Entity("Livraria.Domain.Entities.Usuario", b =>
                 {
-                    b.HasOne("Livraria.Domain.Entities.InstituicaoEnsino", "InstituicaoEnsino")
+                    b.HasOne("Livraria.Domain.Entities.LivroEmprestimo", "InstituicaoEnsino")
                         .WithMany()
                         .HasForeignKey("InstituicaoEnsinoId")
                         .OnDelete(DeleteBehavior.Cascade)

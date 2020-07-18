@@ -13,12 +13,14 @@ namespace Livraria.Domain.Validations
             RuleFor(customer => customer.CPNJ)
                 .NotNull().WithMessage("O Campo não deve ser Nulo")
                 .NotEmpty().WithMessage("O Campo não deve ser vazio")
-                .MaximumLength(15).WithMessage("O Campo não deve ter mais de 15 caracteres");
+                .MaximumLength(15).WithMessage("O Campo não deve ter mais de 15 caracteres")
+                .MinimumLength(14).WithMessage("Provavelmente esse campo está faltando dígitos.");
 
             RuleFor(customer => customer.Telefone)
                 .NotNull().WithMessage("O Campo não deve ser Nulo")
                 .NotEmpty().WithMessage("O Campo não deve ser vazio")
-                .MaximumLength(11).WithMessage("O Campo não deve ter mais de 11 caracteres");
+                .MaximumLength(11).WithMessage("O Campo não deve ter mais de 11 caracteres")
+                .MinimumLength(10).WithMessage("Provavelmente esse campo está faltando dígitos.");
 
             RuleFor(customer => customer.Endereco)
                 .NotNull().WithMessage("O Campo não deve ser Nulo")

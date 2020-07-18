@@ -19,9 +19,55 @@ namespace Livraria.Api.Controllers
         {
             this.instituicaoEnsinoService = instituicaoEnsinoService;
         }
+
+        /// <summary>
+        /// **Se der tempo, refazer com paginação
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
         public Task<IEnumerable<InstituicaoEnsino>> Get()
         {
             return instituicaoEnsinoService.GetAll();
+        }
+        [HttpGet("{id}")]
+        public IActionResult Get(int id)
+        {
+            if (id == 0)
+            {
+                Response.StatusCode = 400;
+                return NotFound();
+            }
+            return Ok(instituicaoEnsinoService.Find(id).Result);
+        }
+        [HttpPost]
+        public Task<InstituicaoEnsino> Post(InstituicaoEnsino obj)
+        {
+            return instituicaoEnsinoService.Insert(obj);
+        }
+        [HttpPut("{id}")]
+        public  IActionResult Put(int id, InstituicaoEnsino obj)
+        {
+            if (id == 0)
+            {
+                Response.StatusCode = 400;
+                return NotFound();
+            }
+            
+            instituicaoEnsinoService.Update(id, obj);
+            return Ok(); 
+        }
+
+        [HttpGet("desabilitar/{idInstituicaoEnsino}")]
+        public Task Desabilitar(int idInstituicaoEnsino)
+        {
+            var obj = instituicaoEnsinoService.Find(idInstituicaoEnsino);
+            return instituicaoEnsinoService.Desabilitar(obj.Result);
+        }
+        [HttpGet("habilitar/{idInstituicaoEnsino}")]
+        public Task Habilitar(int idInstituicaoEnsino)
+        {
+            var obj = instituicaoEnsinoService.Find(idInstituicaoEnsino);
+            return instituicaoEnsinoService.Habilitar(obj.Result);
         }
     }
 }

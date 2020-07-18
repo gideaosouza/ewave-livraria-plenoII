@@ -9,7 +9,6 @@ namespace Livraria.Infrastructure.Repository.Interfaces
 {
     public interface IAsyncRepository<TEntity> where TEntity : BaseEntity
     {
-
         Task<TEntity> Find(int id);
         Task<TEntity> Insert(TEntity entity);
         Task Update(TEntity entity);

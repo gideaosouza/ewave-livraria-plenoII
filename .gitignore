@@ -21,3 +21,5 @@
 /src/client/livraria-app/e2e
 /src/client/Dockerfile
 /src/api/Livraria/Livraria.Api/Dockerfile_
+/src/api/Livraria/NUnitTestLivraria/bin/Debug/netcoreapp3.1
+/src/api/Livraria/NUnitTestLivraria/obj

@@ -20,6 +20,8 @@ using Livraria.Application.Interfaces;
 using Livraria.Application.Services;
 using Livraria.Infrastructure.Repository;
 using Livraria.Infrastructure.Repository.Interfaces;
+using Swashbuckle.Swagger;
+using Microsoft.OpenApi.Models;
 
 namespace Livraria.Api
 {
@@ -39,18 +41,28 @@ namespace Livraria.Api
 
             services.AddTransient<IInstituicaoEnsinoService, InstituicaoEnsinoService>();
             services.AddTransient<IRepositoryInstituicaoEnsino, InstituicaoEnsinoRepository>();
-            //services.AddTransient(typeof(), typeof());
-            //services.AddScoped<ApplicationDbContext>();
-
 
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("LivrariaConnectionString")));
 
             services.AddMvc().AddFluentValidation();
             services.AddTransient<IValidator<InstituicaoEnsino>, InstituicaoEnsinoValidator>();
 
-           
+            services.AddSwaggerGen(c => {
 
-          
+                c.SwaggerDoc("v1",
+                    new OpenApiInfo
+                    {
+                        Title = "Livraria Ewave",
+                        Version = "v1",
+                        Description = "Api da Livraria Ewave",
+                        Contact = new OpenApiContact
+                        { 
+                            Name = "Gideão Souza",
+                            Url = new Uri("https://github.com/gideaosouza")
+                        }
+                    }
+                    );
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -60,6 +72,12 @@ namespace Livraria.Api
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseSwagger();
+            app.UseSwaggerUI(c => {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Livraria Ewave V1");
+            });
+
 
             app.UseHttpsRedirection();
 
