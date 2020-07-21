@@ -37,17 +37,42 @@ namespace Livraria.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(options => options.AddPolicy("ApiCorsPolicy", builder =>
+            {
+                builder.WithOrigins("http://localhost:4200").AllowAnyMethod().AllowAnyHeader();
+            }));
+
             services.AddControllers();
 
+            //Services
             services.AddTransient<IInstituicaoEnsinoService, InstituicaoEnsinoService>();
+            services.AddTransient<IUsuarioService, UsuarioService>();
+            services.AddTransient<ILivroService, LivroService>();
+            services.AddTransient<ILivroReservaService, LivroReservaService>();
+            services.AddTransient<ILivroEmprestimoService, LivroEmprestimoService>();
+
+            //Upload
+            services.AddTransient<IUploadFileService, UploadFileService>();
+            //Respository
             services.AddTransient<IRepositoryInstituicaoEnsino, InstituicaoEnsinoRepository>();
+            services.AddTransient<IRepositoryUsuario, UsuarioRepository>();
+            services.AddTransient<IRepositoryLivro, LivroRepository>();
+            services.AddTransient<IRepositoryLivroReserva, LivroReservaRepository>();
+            services.AddTransient<IRepositoryLivroEmprestimo, LivroEmprestimoRepository>();
+            //File Manager
+            services.AddTransient<IFileManager, FileManager>();
+            //Validações
+            services.AddMvc().AddFluentValidation();
+            services.AddTransient<IValidator<InstituicaoEnsino>, InstituicaoEnsinoValidator>();
+            services.AddTransient<IValidator<Usuario>, UsuarioValidator>();
+            services.AddTransient<IValidator<Livro>, LivroValidator>();
+            services.AddTransient<IValidator<LivroReserva>, LivroReservaValidator>();
+            services.AddTransient<IValidator<EmprestimoLivro>, EmprestimoLivroValidator>();
 
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("LivrariaConnectionString")));
 
-            services.AddMvc().AddFluentValidation();
-            services.AddTransient<IValidator<InstituicaoEnsino>, InstituicaoEnsinoValidator>();
-
-            services.AddSwaggerGen(c => {
+            services.AddSwaggerGen(c =>
+            {
 
                 c.SwaggerDoc("v1",
                     new OpenApiInfo
@@ -56,7 +81,7 @@ namespace Livraria.Api
                         Version = "v1",
                         Description = "Api da Livraria Ewave",
                         Contact = new OpenApiContact
-                        { 
+                        {
                             Name = "Gideão Souza",
                             Url = new Uri("https://github.com/gideaosouza")
                         }
@@ -74,10 +99,12 @@ namespace Livraria.Api
             }
 
             app.UseSwagger();
-            app.UseSwaggerUI(c => {
+            app.UseSwaggerUI(c =>
+            {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Livraria Ewave V1");
             });
 
+            app.UseCors("ApiCorsPolicy");
 
             app.UseHttpsRedirection();
 

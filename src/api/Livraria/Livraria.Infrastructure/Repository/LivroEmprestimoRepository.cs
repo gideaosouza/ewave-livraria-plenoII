@@ -27,7 +27,9 @@ namespace Livraria.Infrastructure.Repository
             obj.Devolvido = true;
             return Update(obj);
         }
-
+        public bool UsuarioAtingiuLimiteEmprestimo(int IdUsuario) {
+            return Where(c => c.UsuarioId == IdUsuario && c.Devolvido == false).Result.Count() >= 2;
+        }
         public List<Livro> LivrosComPrazoExtrapolado()
         {
             return Where(c => c.DataDevolucao > DateTime.Today).Result.Select(c => c.Livro).ToList();

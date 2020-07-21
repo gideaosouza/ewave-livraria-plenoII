@@ -1,5 +1,6 @@
 ﻿using Livraria.Application.Interfaces;
 using Livraria.Domain.Entities;
+using Livraria.Infrastructure.Repository.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
@@ -10,39 +11,45 @@ namespace Livraria.Application.Services
 {
     public class UsuarioService : IUsuarioService
     {
+        private readonly IRepositoryUsuario repositoryUsuario;
+
+        public UsuarioService(IRepositoryUsuario repositoryUsuario)
+        {
+            this.repositoryUsuario = repositoryUsuario;
+        }
         public Task Desabilitar(Usuario obj)
         {
-            throw new NotImplementedException();
+            return repositoryUsuario.Desabilitar(obj);
         }
 
         public Task<Usuario> Find(int id)
         {
-            throw new NotImplementedException();
+            return repositoryUsuario.Find(id);
         }
 
         public Task<IEnumerable<Usuario>> GetAll()
         {
-            throw new NotImplementedException();
+            return repositoryUsuario.GetAll();
         }
 
         public Task Habilitar(Usuario obj)
         {
-            throw new NotImplementedException();
+            return repositoryUsuario.Habilitar(obj);
         }
 
         public Task<Usuario> Insert(Usuario obj)
         {
-            throw new NotImplementedException();
+            return repositoryUsuario.Insert(obj);
         }
 
         public Task Update(int id, Usuario obj)
         {
-            throw new NotImplementedException();
+            return repositoryUsuario.Update(obj);
         }
 
         public Task<IEnumerable<Usuario>> Where(Expression<Func<Usuario, bool>> predicate)
         {
-            throw new NotImplementedException();
+            return repositoryUsuario.Where(predicate);
         }
     }
 }
