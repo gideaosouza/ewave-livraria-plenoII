@@ -32,6 +32,9 @@ namespace Livraria.Infrastructure.Migrations
                     b.Property<DateTime?>("DataDevolucao")
                         .HasColumnType("datetime2");
 
+                    b.Property<bool>("Devolvido")
+                        .HasColumnType("bit");
+
                     b.Property<bool>("Habilitado")
                         .HasColumnType("bit");
 
@@ -221,7 +224,7 @@ namespace Livraria.Infrastructure.Migrations
                         .IsRequired();
 
                     b.HasOne("Livraria.Domain.Entities.Usuario", "Usuario")
-                        .WithMany()
+                        .WithMany("EmprestimoLivro")
                         .HasForeignKey("UsuarioId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();

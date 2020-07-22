@@ -14,5 +14,6 @@ namespace Livraria.Infrastructure.Repository.Interfaces
         /// <returns></returns>
         List<Livro> LivrosComPrazoExtrapolado();
         Task EfetuarDevolucao(int IdEmprestimo);
+        bool UsuarioAtingiuLimiteEmprestimo(int IdUsuario);
     }
 }

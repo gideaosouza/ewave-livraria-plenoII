@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Livraria.Application.Interfaces;
@@ -14,14 +15,16 @@ namespace Livraria.Api.Controllers
     public class LivroController : ControllerBase
     {
         private readonly ILivroService livroService;
+        private readonly IUploadFileService uploadFileService;
 
-        public LivroController(ILivroService livroService)
+        public LivroController(ILivroService livroService, IUploadFileService uploadFileService)
         {
             this.livroService = livroService;
+            this.uploadFileService = uploadFileService;
         }
 
         /// <summary>
-        /// **Se der tempo, refazer com paginação
+        /// Pode ser feito com Paginação
         /// </summary>
         /// <returns></returns>
         [HttpGet]
@@ -35,7 +38,7 @@ namespace Livraria.Api.Controllers
             if (id == 0)
             {
                 Response.StatusCode = 400;
-                return NotFound();
+                return NotFound("Id não pode ser zero");
             }
             return Ok(livroService.Find(id).Result);
         }
@@ -45,7 +48,7 @@ namespace Livraria.Api.Controllers
             return livroService.Insert(obj);
         }
         [HttpPut("{id}")]
-        public IActionResult Put(int id, Livro obj)
+        public async Task<IActionResult> Put(int id, Livro obj)
         {
             if (id == 0)
             {
@@ -53,21 +56,50 @@ namespace Livraria.Api.Controllers
                 return NotFound();
             }
 
-            livroService.Update(id, obj);
+            await livroService.Update(id, obj);
             return Ok();
         }
 
         [HttpGet("desabilitar/{idLivro}")]
-        public Task Desabilitar(int idLivro)
+        public async Task<IActionResult> Desabilitar(int idLivro)
         {
             var obj = livroService.Find(idLivro);
-            return livroService.Desabilitar(obj.Result);
+            await livroService.Desabilitar(obj.Result);
+            return Ok();
         }
         [HttpGet("habilitar/{idLivro}")]
-        public Task Habilitar(int idLivro)
+        public async Task<IActionResult> Habilitar(int idLivro)
         {
             var obj = livroService.Find(idLivro);
-            return livroService.Habilitar(obj.Result);
+            await livroService.Habilitar(obj.Result);
+            return Ok();
+        }
+
+
+
+        /// <summary>
+        /// Esse metodo foi criado de maneira simples, apenas para atender um dos requisitos, caso tivesse mais tempo, faria-o por meio de uma entidade, fazer verificações de formato e tamanho..
+        /// </summary>
+        /// <param name="arquivo"></param>
+        /// <returns></returns>
+        [HttpPost("UploadCapa")]
+        public async Task<IActionResult> UploadCapa([FromForm] IFormFile arquivo)
+        {
+            long size = arquivo.Length;
+            var path = string.Empty;
+            var format = arquivo.FileName.Split(".").LastOrDefault();
+
+            if (arquivo.Length > 0 && !string.IsNullOrEmpty(format) && new string[] { "jpg", "png"}.Contains(format))
+            {
+                MemoryStream memoryStream = new MemoryStream();
+                arquivo.CopyTo(memoryStream);
+                path = uploadFileService.SaveFile(memoryStream, "capa", format);
+            }
+
+            if (string.IsNullOrEmpty(path))
+                return BadRequest("Não foi possível processar a sua imagem");
+
+            return Ok(new { path, size });
         }
     }
 }

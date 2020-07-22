@@ -54,6 +54,8 @@ namespace Livraria.Application.Services
             objOri.Habilitado = obj.Habilitado;
             objOri.Nome = obj.Nome;
             objOri.Telefone = obj.Telefone;
+
+            await instituicaoEnsinoRepository.Update(objOri);
         }
 
         public Task<IEnumerable<InstituicaoEnsino>> Where(Expression<Func<InstituicaoEnsino, bool>> predicate)

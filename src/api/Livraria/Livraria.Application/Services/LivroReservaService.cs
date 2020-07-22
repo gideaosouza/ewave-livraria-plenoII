@@ -1,5 +1,6 @@
 ﻿using Livraria.Application.Interfaces;
 using Livraria.Domain.Entities;
+using Livraria.Infrastructure.Repository.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
@@ -10,39 +11,45 @@ namespace Livraria.Application.Services
 {
     public class LivroReservaService : ILivroReservaService
     {
+        private readonly IRepositoryLivroReserva repositoryLivroReserva;
+
+        public LivroReservaService(IRepositoryLivroReserva repositoryLivroReserva)
+        {
+            this.repositoryLivroReserva = repositoryLivroReserva;
+        }
         public Task Desabilitar(LivroReserva obj)
         {
-            throw new NotImplementedException();
+            return repositoryLivroReserva.Desabilitar(obj);
         }
 
         public Task<LivroReserva> Find(int id)
         {
-            throw new NotImplementedException();
+            return repositoryLivroReserva.Find(id);
         }
 
         public Task<IEnumerable<LivroReserva>> GetAll()
         {
-            throw new NotImplementedException();
+            return repositoryLivroReserva.GetAll();
         }
 
         public Task Habilitar(LivroReserva obj)
         {
-            throw new NotImplementedException();
+            return repositoryLivroReserva.Habilitar(obj);
         }
 
         public Task<LivroReserva> Insert(LivroReserva obj)
         {
-            throw new NotImplementedException();
+            return repositoryLivroReserva.Insert(obj);
         }
 
         public Task Update(int id, LivroReserva obj)
         {
-            throw new NotImplementedException();
+            return repositoryLivroReserva.Update(obj);
         }
 
         public Task<IEnumerable<LivroReserva>> Where(Expression<Func<LivroReserva, bool>> predicate)
         {
-            throw new NotImplementedException();
+            return repositoryLivroReserva.Where(predicate);
         }
     }
 }

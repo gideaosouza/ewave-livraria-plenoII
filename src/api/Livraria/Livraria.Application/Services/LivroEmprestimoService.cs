@@ -25,6 +25,11 @@ namespace Livraria.Application.Services
             return repositoryLivroEmprestimo.Desabilitar(obj);
         }
 
+        public Task EfetuarDevolucao(int IdEmprestimo)
+        {
+            return repositoryLivroEmprestimo.EfetuarDevolucao(IdEmprestimo);
+        }
+
         public Task<EmprestimoLivro> Find(int id)
         {
             return repositoryLivroEmprestimo.Find(id);
@@ -45,7 +50,7 @@ namespace Livraria.Application.Services
             return repositoryLivroEmprestimo.Insert(obj);
         }
 
-        public List<Livro> LivrosComPrazoExtrapolados()
+        public List<Livro> LivrosComPrazoExtrapolado()
         {
             return repositoryLivroEmprestimo.LivrosComPrazoExtrapolado();
         }
@@ -53,6 +58,11 @@ namespace Livraria.Application.Services
         public Task Update(int id, EmprestimoLivro obj)
         {
             return repositoryLivroEmprestimo.Update(obj);
+        }
+
+        public bool UsuarioAtingiuLimiteEmprestimo(int IdUsuario)
+        {
+            return repositoryLivroEmprestimo.UsuarioAtingiuLimiteEmprestimo(IdUsuario);
         }
 
         public Task<IEnumerable<EmprestimoLivro>> Where(Expression<Func<EmprestimoLivro, bool>> predicate)
