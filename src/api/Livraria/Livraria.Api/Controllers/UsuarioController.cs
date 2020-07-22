@@ -21,7 +21,7 @@ namespace Livraria.Api.Controllers
         }
 
         /// <summary>
-        /// **Se der tempo, refazer com paginação
+        /// Pode ser feito com Paginação
         /// </summary>
         /// <returns></returns>
         [HttpGet]
@@ -45,7 +45,7 @@ namespace Livraria.Api.Controllers
             return usuarioService.Insert(obj);
         }
         [HttpPut("{id}")]
-        public IActionResult Put(int id, Usuario obj)
+        public async Task<IActionResult> Put(int id, Usuario obj)
         {
             if (id == 0)
             {
@@ -53,21 +53,23 @@ namespace Livraria.Api.Controllers
                 return NotFound();
             }
 
-            usuarioService.Update(id, obj);
+            await usuarioService.Update(id, obj);
             return Ok();
         }
 
         [HttpGet("desabilitar/{idUsuario}")]
-        public Task Desabilitar(int idUsuario)
+        public async Task<IActionResult> Desabilitar(int idUsuario)
         {
             var obj = usuarioService.Find(idUsuario);
-            return usuarioService.Desabilitar(obj.Result);
+            await usuarioService.Desabilitar(obj.Result);
+            return Ok();
         }
         [HttpGet("habilitar/{idUsuario}")]
-        public Task Habilitar(int idUsuario)
+        public async Task<IActionResult> Habilitar(int idUsuario)
         {
             var obj = usuarioService.Find(idUsuario);
-            return usuarioService.Habilitar(obj.Result);
+            await usuarioService.Habilitar(obj.Result);
+            return Ok();
         }
     }
 }

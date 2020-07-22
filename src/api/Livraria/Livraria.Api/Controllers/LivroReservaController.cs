@@ -21,7 +21,7 @@ namespace Livraria.Api.Controllers
         }
 
         /// <summary>
-        /// **Se der tempo, refazer com paginação
+        /// Pode ser feito com Paginação
         /// </summary>
         /// <returns></returns>
         [HttpGet]
@@ -45,7 +45,7 @@ namespace Livraria.Api.Controllers
             return livroReservaService.Insert(obj);
         }
         [HttpPut("{id}")]
-        public IActionResult Put(int id, LivroReserva obj)
+        public async Task<IActionResult> Put(int id, LivroReserva obj)
         {
             if (id == 0)
             {
@@ -53,21 +53,23 @@ namespace Livraria.Api.Controllers
                 return NotFound();
             }
 
-            livroReservaService.Update(id, obj);
+            await livroReservaService.Update(id, obj);
             return Ok();
         }
 
         [HttpGet("desabilitar/{idLivroReserva}")]
-        public Task Desabilitar(int idLivroReserva)
+        public async Task<IActionResult> Desabilitar(int idLivroReserva)
         {
             var obj = livroReservaService.Find(idLivroReserva);
-            return livroReservaService.Desabilitar(obj.Result);
+            await livroReservaService.Desabilitar(obj.Result);
+            return Ok();
         }
         [HttpGet("habilitar/{idLivroReserva}")]
-        public Task Habilitar(int idLivroReserva)
+        public async Task<IActionResult> Habilitar(int idLivroReserva)
         {
             var obj = livroReservaService.Find(idLivroReserva);
-            return livroReservaService.Habilitar(obj.Result);
+            await livroReservaService.Habilitar(obj.Result);
+            return Ok();
         }
     }
 }

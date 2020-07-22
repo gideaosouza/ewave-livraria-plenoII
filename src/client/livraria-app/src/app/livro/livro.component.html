@@ -3,6 +3,9 @@
 </div>
 <div class="row">
     <div class="col-8">
+        <p *ngFor="let alert of alerts">
+            <ngb-alert [type]="alert.type" (close)="close(alert)">{{ alert.message }}</ngb-alert>
+          </p>
         <table class="table table-striped">
             <thead>
                 <tr>
@@ -25,8 +28,8 @@
                     <td>{{ livro.titulo }}</td>
                     <td>{{ livro.genero  }}</td>
                     <td>{{ livro.sinopse  }}</td>
-                    <td> <button class="btn btn-primary" (click)="update(livro.id)">Editar</button>
-                        | <button class="btn btn-danger" (click)="desabilitar(livro.id)">Desabilitar</button>
+                    <td> <button class="btn btn-primary btn-sm" (click)="update(livro.id)">Edit</button>
+                        | <button class="btn btn-danger btn-sm" (click)="desabilitar(livro.id)">Desabilitar</button>
                     </td>
                 </tr>
             </tbody>
@@ -34,26 +37,27 @@
     </div>
     <div class="col-4">
         <form [formGroup]="livroForm" (ngSubmit)="submitForm()">
+            <input type="text" formControlName="id" hidden>
             <div class="form-group">
                 <label for="autorInput">Autor</label>
-                <input type="text" class="form-control" id="autorInput"
+                <input type="text" formControlName="autor" class="form-control" id="autorInput"
                     placeholder="Machado de Assis, Nuno Cobra, etc.">
             </div>
             <div class="form-group">
                 <label for="tituloInput">Titulo</label>
-                <input type="text" class="form-control" id="tituloInput" placeholder="Titulo do Livro">
+                <input type="text" class="form-control" formControlName="titulo" id="tituloInput" placeholder="Titulo do Livro">
             </div>
             <div class="form-group">
                 <label for="generoInput">Género</label>
-                <input type="text" class="form-control" id="generoInput" placeholder="Género do Livro.">
+                <input type="text" class="form-control" formControlName="genero" id="generoInput" placeholder="Género do Livro.">
             </div>
             <div class="form-group">
                 <label for="sinopseInput">Sinopse</label>
-                <input type="text" class="form-control" id="sinopseInput" placeholder="Sinopse do Livro.">
+                <input type="text" class="form-control" id="sinopseInput" formControlName="sinopse" placeholder="Sinopse do Livro.">
             </div>
             <div class="form-group">
                 <label for="capaInput">Capa</label>
-                <input type="input" class="form-control" id="capaInput">
+                <input type="file" name="arquivo" (change)="handleFileInput($event.target.files)" class="form-control" id="capaInput">
             </div>
             <button type="submit" class="btn btn-primary">Salvar</button>
         </form>

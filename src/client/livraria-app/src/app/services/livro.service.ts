@@ -18,8 +18,24 @@ export class LivroService {
         })
     }
 
-    create(product): Observable<Livro> {
-        return this.httpClient.post<Livro>(this.apiServer + '/Livro/', JSON.stringify(product), this.httpOptions)
+    
+    desabilitar(id): Observable<void> {
+        return this.httpClient.get<void>(this.apiServer + '/Livro/Desabilitar/' + id)
+        .pipe(
+            catchError(this.errorHandler)
+        )
+    }
+
+        
+    habilitar(id): Observable<void> {
+        return this.httpClient.get<void>(this.apiServer + '/Livro/Habilitar/' + id, this.httpOptions)
+            .pipe(
+                catchError(this.errorHandler)
+            )
+    }
+
+    create(livro): Observable<Livro> {
+        return this.httpClient.post<Livro>(this.apiServer + '/Livro/', JSON.stringify(livro), this.httpOptions)
             .pipe(
                 catchError(this.errorHandler)
             )
@@ -51,16 +67,12 @@ export class LivroService {
                 catchError(this.errorHandler)
             )
     }
+
     errorHandler(error) {
         let errorMessage = '';
         if (error.error instanceof ErrorEvent) {
-            // Get client-side error
             errorMessage = error.error.message;
-        } else {
-            // Get server-side error
-            errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
         }
-        console.log(errorMessage);
-        return throwError(errorMessage);
+        return throwError(error.error);
     }
 }

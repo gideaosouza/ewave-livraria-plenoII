@@ -21,7 +21,7 @@ namespace Livraria.Api.Controllers
         }
 
         /// <summary>
-        /// **Se der tempo, refazer com paginação
+        /// Pode ser feito com Paginação
         /// </summary>
         /// <returns></returns>
         [HttpGet]
@@ -45,7 +45,7 @@ namespace Livraria.Api.Controllers
             return instituicaoEnsinoService.Insert(obj);
         }
         [HttpPut("{id}")]
-        public  IActionResult Put(int id, InstituicaoEnsino obj)
+        public async Task<IActionResult> Put(int id, InstituicaoEnsino obj)
         {
             if (id == 0)
             {
@@ -53,21 +53,23 @@ namespace Livraria.Api.Controllers
                 return NotFound();
             }
             
-            instituicaoEnsinoService.Update(id, obj);
+            await instituicaoEnsinoService.Update(id, obj);
             return Ok(); 
         }
 
         [HttpGet("desabilitar/{idInstituicaoEnsino}")]
-        public Task Desabilitar(int idInstituicaoEnsino)
+        public async Task<IActionResult> Desabilitar(int idInstituicaoEnsino)
         {
             var obj = instituicaoEnsinoService.Find(idInstituicaoEnsino);
-            return instituicaoEnsinoService.Desabilitar(obj.Result);
+            await instituicaoEnsinoService.Desabilitar(obj.Result);
+            return Ok();
         }
         [HttpGet("habilitar/{idInstituicaoEnsino}")]
-        public Task Habilitar(int idInstituicaoEnsino)
+        public async Task<IActionResult> Habilitar(int idInstituicaoEnsino)
         {
             var obj = instituicaoEnsinoService.Find(idInstituicaoEnsino);
-            return instituicaoEnsinoService.Habilitar(obj.Result);
+            await instituicaoEnsinoService.Habilitar(obj.Result);
+            return Ok();
         }
     }
 }

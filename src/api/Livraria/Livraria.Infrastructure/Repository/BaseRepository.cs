@@ -22,15 +22,15 @@ namespace Livraria.Infrastructure.Repository
 
         public virtual async Task<TEntity> Insert(TEntity obj)
         {
-            _efContext.Set<TEntity>().Add(obj);
+            await _efContext.Set<TEntity>().AddAsync(obj);
             await _efContext.SaveChangesAsync();
             return obj;
         }
 
-        public virtual Task Update(TEntity obj)
+        public virtual async Task Update(TEntity obj)
         {
             _efContext.Entry(obj).State = EntityState.Modified;
-            return _efContext.SaveChangesAsync();
+             await _efContext.SaveChangesAsync();
         }
 
         public virtual Task Desabilitar(TEntity obj)

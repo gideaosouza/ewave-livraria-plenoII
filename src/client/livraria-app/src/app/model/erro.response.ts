@@ -1,11 +1,11 @@
-export interface ErroLivro {
+export class ErroLivro {
     Capa: string[];
     Autor: string[];
     Genero: string[];
     Titulo: string[];
 }
 
-export interface ErrosLivro {
+export class ErrosLivro {
     type: string;
     title: string;
     status: number;

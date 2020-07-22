@@ -2,8 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using Livraria.Application.Interfaces;
 using Livraria.Domain.Entities;
+using Livraria.Domain.Validations;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -21,7 +24,7 @@ namespace Livraria.Api.Controllers
         }
 
         /// <summary>
-        /// **Se der tempo, refazer com paginação
+        /// Pode ser feito com Paginação
         /// </summary>
         /// <returns></returns>
         [HttpGet]
@@ -39,13 +42,30 @@ namespace Livraria.Api.Controllers
             }
             return Ok(emprestimoLivroService.Find(id).Result);
         }
+
+        /// <summary>
+        /// O Melhor seria abstrair a validação de entidade com valor para outra camada
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
         [HttpPost]
-        public Task<EmprestimoLivro> Post(EmprestimoLivro obj)
+        public object Post(EmprestimoLivro obj)
         {
+            EmprestimoLivroValidator validations = new EmprestimoLivroValidator();
+            validations.RuleFor(c => c).Must(c => !emprestimoLivroService.UsuarioAtingiuLimiteEmprestimo(c.UsuarioId))
+                .WithMessage("Usuário atingiu o limite de livros emprestados");
+            var results = validations.Validate(obj);
+
+            results.AddToModelState(ModelState, null);
+
+            if (!ModelState.IsValid)
+            { 
+                return BadRequest(results.Errors);
+            }
             return emprestimoLivroService.Insert(obj);
         }
         [HttpPut("{id}")]
-        public IActionResult Put(int id, EmprestimoLivro obj)
+        public async Task<IActionResult> Put(int id, EmprestimoLivro obj)
         {
             if (id == 0)
             {
@@ -53,21 +73,23 @@ namespace Livraria.Api.Controllers
                 return NotFound();
             }
 
-            emprestimoLivroService.Update(id, obj);
+            await emprestimoLivroService.Update(id, obj);
             return Ok();
         }
 
         [HttpGet("desabilitar/{idEmprestimoLivro}")]
-        public Task Desabilitar(int idEmprestimoLivro)
+        public async Task<IActionResult> Desabilitar(int idEmprestimoLivro)
         {
             var obj = emprestimoLivroService.Find(idEmprestimoLivro);
-            return emprestimoLivroService.Desabilitar(obj.Result);
+            await emprestimoLivroService.Desabilitar(obj.Result);
+            return Ok();
         }
         [HttpGet("habilitar/{idEmprestimoLivro}")]
-        public Task Habilitar(int idEmprestimoLivro)
+        public async Task<IActionResult> Habilitar(int idEmprestimoLivro)
         {
             var obj = emprestimoLivroService.Find(idEmprestimoLivro);
-            return emprestimoLivroService.Habilitar(obj.Result);
+            await emprestimoLivroService.Habilitar(obj.Result);
+            return Ok();
         }
     }
 }

@@ -24,7 +24,7 @@ namespace Livraria.Api.Controllers
         }
 
         /// <summary>
-        /// **Se der tempo, refazer com paginação
+        /// Pode ser feito com Paginação
         /// </summary>
         /// <returns></returns>
         [HttpGet]
@@ -48,7 +48,7 @@ namespace Livraria.Api.Controllers
             return livroService.Insert(obj);
         }
         [HttpPut("{id}")]
-        public IActionResult Put(int id, Livro obj)
+        public async Task<IActionResult> Put(int id, Livro obj)
         {
             if (id == 0)
             {
@@ -56,23 +56,32 @@ namespace Livraria.Api.Controllers
                 return NotFound();
             }
 
-            livroService.Update(id, obj);
+            await livroService.Update(id, obj);
             return Ok();
         }
 
         [HttpGet("desabilitar/{idLivro}")]
-        public Task Desabilitar(int idLivro)
+        public async Task<IActionResult> Desabilitar(int idLivro)
         {
             var obj = livroService.Find(idLivro);
-            return livroService.Desabilitar(obj.Result);
+            await livroService.Desabilitar(obj.Result);
+            return Ok();
         }
         [HttpGet("habilitar/{idLivro}")]
-        public Task Habilitar(int idLivro)
+        public async Task<IActionResult> Habilitar(int idLivro)
         {
             var obj = livroService.Find(idLivro);
-            return livroService.Habilitar(obj.Result);
+            await livroService.Habilitar(obj.Result);
+            return Ok();
         }
 
+
+
+        /// <summary>
+        /// Esse metodo foi criado de maneira simples, apenas para atender um dos requisitos, caso tivesse mais tempo, faria-o por meio de uma entidade, fazer verificações de formato e tamanho..
+        /// </summary>
+        /// <param name="arquivo"></param>
+        /// <returns></returns>
         [HttpPost("UploadCapa")]
         public async Task<IActionResult> UploadCapa([FromForm] IFormFile arquivo)
         {

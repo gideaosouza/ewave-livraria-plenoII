@@ -8,6 +8,8 @@ namespace Livraria.Application.Interfaces
 {
     public interface ILivroEmprestimoService : IServiceBase<EmprestimoLivro>
     {
-        List<Livro> LivrosComPrazoExtrapolados();
+        List<Livro> LivrosComPrazoExtrapolado();
+        Task EfetuarDevolucao(int IdEmprestimo);
+        bool UsuarioAtingiuLimiteEmprestimo(int IdUsuario);
     }
 }

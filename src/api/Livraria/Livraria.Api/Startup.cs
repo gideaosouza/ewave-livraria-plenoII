@@ -22,6 +22,8 @@ using Livraria.Infrastructure.Repository;
 using Livraria.Infrastructure.Repository.Interfaces;
 using Swashbuckle.Swagger;
 using Microsoft.OpenApi.Models;
+using System.Reflection;
+using System.IO;
 
 namespace Livraria.Api
 {
@@ -39,7 +41,7 @@ namespace Livraria.Api
         {
             services.AddCors(options => options.AddPolicy("ApiCorsPolicy", builder =>
             {
-                builder.WithOrigins("http://localhost:4200").AllowAnyMethod().AllowAnyHeader();
+                builder.WithOrigins(Configuration.GetValue<string>("AngularClient")).AllowAnyMethod().AllowAnyHeader();
             }));
 
             services.AddControllers();
@@ -83,10 +85,15 @@ namespace Livraria.Api
                         Contact = new OpenApiContact
                         {
                             Name = "Gideão Souza",
-                            Url = new Uri("https://github.com/gideaosouza")
+                            Url = new Uri("https://github.com/gideaosouza"),
+                            Email = "gideao_souza@outlook.com"
                         }
                     }
                     );
+                // Set the comments path for the Swagger JSON and UI.**
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                c.IncludeXmlComments(xmlPath);
             });
         }
 

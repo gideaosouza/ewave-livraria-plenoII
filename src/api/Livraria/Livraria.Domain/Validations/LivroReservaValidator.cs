@@ -14,7 +14,7 @@ namespace Livraria.Domain.Validations
             RuleFor(c => c.LivroId).NotEqual(0).WithMessage("O Id do Livro não foi informado");
             RuleFor(c => c.DataResgate)
                 .NotNull().WithMessage("A data de resgate não foi informada")
-                .LessThan(DateTime.Today).WithMessage("A data de resgate não deve ser antes de hoje.");
+                .GreaterThan(DateTime.Today).WithMessage("A data de resgate não deve ser antes de hoje.");
         }
     }
 }

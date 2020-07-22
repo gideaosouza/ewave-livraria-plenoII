@@ -42,9 +42,18 @@ namespace Livraria.Application.Services
             return repositoryLivro.Insert(obj);
         }
 
-        public Task Update(int id, Livro obj)
+        public async Task Update(int id, Livro obj)
         {
-            return repositoryLivro.Update(obj);
+            var objOri = repositoryLivro.Find(id).Result;
+
+            objOri.Capa = obj.Capa;
+            objOri.Autor = obj.Autor;
+            objOri.Habilitado = obj.Habilitado;
+            objOri.Genero = obj.Genero;
+            objOri.Sinopse = obj.Sinopse;
+            objOri.Titulo = obj.Titulo;
+
+            await repositoryLivro.Update(objOri);
         }
 
         public Task<IEnumerable<Livro>> Where(Expression<Func<Livro, bool>> predicate)
