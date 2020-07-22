@@ -4,7 +4,7 @@
 
 
 ## Sobre a Arquitetura.
-Minha escolha foi baseada em Clean DDD
+Minha escolha foi baseada em Clean DDD, foi assumido que para cada um livro exista uma cópia. 
 
 Tecnologias.
 
@@ -31,3 +31,5 @@ Tecnologias.
 Originalmente comecei o projeto com Docker, porém, não trabalhei muito com Docker em casa e a minha maquina não foi compatível infelizmente.
 
 O projeto não foi ao todo concluído, mantive mais esforços na parte da arquitetura/back-end, em alguns lugares como por exemplo nos controllers, há nomenclaturas adotadas somente para demonstrar o uso de nomes de rotas e coisa do tipo. 
+
+
