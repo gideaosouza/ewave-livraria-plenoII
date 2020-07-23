@@ -12,5 +12,6 @@ namespace Livraria.Domain.Entities
         public virtual Livro Livro { get; set; }
         public DateTime? DataDevolucao { get; set; }
         public bool Devolvido { get; set; }
+        public DateTime? DataDevolvido { get; set; }
     }
 }

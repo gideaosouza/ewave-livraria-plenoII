@@ -55,24 +55,27 @@ namespace Livraria.Api.Controllers
         public object Post(EmprestimoLivro obj)
         {
             EmprestimoLivroValidator validations = new EmprestimoLivroValidator();
-            
+
             validations.RuleFor(c => c).Must(c => !emprestimoLivroService.UsuarioAtingiuLimiteEmprestimo(c.UsuarioId))
                 .WithMessage("Usuário atingiu o limite de livros emprestados");
 
             validations.RuleFor(c => c).Must(c => !livroService.LivroPodeSerEmprestado(c.LivroId))
               .WithMessage("Livro não pode ser emprestado, pois já foi emprestado a outra pessoa");
-            
+
+            validations.RuleFor(c => c).Must(c => !emprestimoLivroService.UsuarioEstaBloqueado(c.UsuarioId))
+              .WithMessage("O Usuário está bloqueado e não poderá fazer novos emprestimos até que 30 dias se passe da sua ultima devolução");
+
             var results = validations.Validate(obj);
 
             results.AddToModelState(ModelState, null);
 
             if (!ModelState.IsValid)
-            { 
+            {
                 return BadRequest(results.Errors);
             }
             return emprestimoLivroService.Insert(obj);
         }
-        
+
         [HttpPut("{id}")]
         public async Task<IActionResult> Put(int id, EmprestimoLivro obj)
         {
@@ -93,7 +96,7 @@ namespace Livraria.Api.Controllers
             await emprestimoLivroService.Desabilitar(obj.Result);
             return Ok();
         }
-        
+
         [HttpGet("habilitar/{idEmprestimoLivro}")]
         public async Task<IActionResult> Habilitar(int idEmprestimoLivro)
         {

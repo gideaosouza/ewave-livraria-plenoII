@@ -15,5 +15,6 @@ namespace Livraria.Infrastructure.Repository.Interfaces
         Task<IEnumerable<EmprestimoLivro>> LivrosComPrazoExtrapolado();
         Task EfetuarDevolucao(int IdEmprestimo);
         bool UsuarioAtingiuLimiteEmprestimo(int IdUsuario);
+        bool UsuarioEstaBloqueado(int IdUsuario);
     }
 }
