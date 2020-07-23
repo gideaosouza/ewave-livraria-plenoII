@@ -13,7 +13,13 @@ import { EmprestimoLivroComponent } from './emprestimo-livro/emprestimo-livro.co
 import { ReservaLivroComponent } from './reserva-livro/reserva-livro.component';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NgxMaskModule, IConfig } from 'ngx-mask'
 
+// export const options: Partial<IConfig> | (() => Partial<IConfig>);
+
+const maskConfig: Partial<IConfig> = {
+  validation: false,
+};
 
 @NgModule({
   declarations: [
@@ -32,6 +38,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     ReactiveFormsModule,
     BrowserModule,
     AppRoutingModule,
+    NgxMaskModule.forRoot(maskConfig),
     NgbModule
   ],
   providers: [],

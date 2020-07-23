@@ -12,15 +12,17 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Livraria.Api.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/emprestimo-livro")]
     [ApiController]
     public class EmprestimoLivroController : ControllerBase
     {
         private readonly ILivroEmprestimoService emprestimoLivroService;
+        private readonly ILivroService livroService;
 
-        public EmprestimoLivroController(ILivroEmprestimoService emprestimoLivroService)
+        public EmprestimoLivroController(ILivroEmprestimoService emprestimoLivroService, ILivroService livroService)
         {
             this.emprestimoLivroService = emprestimoLivroService;
+            this.livroService = livroService;
         }
 
         /// <summary>
@@ -32,6 +34,7 @@ namespace Livraria.Api.Controllers
         {
             return emprestimoLivroService.GetAll();
         }
+
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
@@ -52,8 +55,13 @@ namespace Livraria.Api.Controllers
         public object Post(EmprestimoLivro obj)
         {
             EmprestimoLivroValidator validations = new EmprestimoLivroValidator();
+            
             validations.RuleFor(c => c).Must(c => !emprestimoLivroService.UsuarioAtingiuLimiteEmprestimo(c.UsuarioId))
                 .WithMessage("Usuário atingiu o limite de livros emprestados");
+
+            validations.RuleFor(c => c).Must(c => !livroService.LivroPodeSerEmprestado(c.LivroId))
+              .WithMessage("Livro não pode ser emprestado, pois já foi emprestado a outra pessoa");
+            
             var results = validations.Validate(obj);
 
             results.AddToModelState(ModelState, null);
@@ -64,6 +72,7 @@ namespace Livraria.Api.Controllers
             }
             return emprestimoLivroService.Insert(obj);
         }
+        
         [HttpPut("{id}")]
         public async Task<IActionResult> Put(int id, EmprestimoLivro obj)
         {
@@ -84,12 +93,19 @@ namespace Livraria.Api.Controllers
             await emprestimoLivroService.Desabilitar(obj.Result);
             return Ok();
         }
+        
         [HttpGet("habilitar/{idEmprestimoLivro}")]
         public async Task<IActionResult> Habilitar(int idEmprestimoLivro)
         {
             var obj = emprestimoLivroService.Find(idEmprestimoLivro);
             await emprestimoLivroService.Habilitar(obj.Result);
             return Ok();
+        }
+
+        [HttpGet("livros-com-prazo-extrapolado")]
+        public async Task<IEnumerable<EmprestimoLivro>> LivrosComPrazoExtrapolado()
+        {
+            return await emprestimoLivroService.LivrosComPrazoExtrapolado();
         }
     }
 }

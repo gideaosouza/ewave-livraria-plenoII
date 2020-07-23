@@ -1,1 +1,57 @@
-<p>instituicao-ensino works!</p>
+<div class="p-3">
+    <h4 class="mx-auto">Cadastro de Instituição de Ensino</h4>
+</div>
+<div class="row">
+    <div class="col-9">
+        <p *ngFor="let alert of alerts">
+            <ngb-alert [type]="alert.type" (close)="close(alert)">{{ alert.message }}</ngb-alert>
+          </p>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Nome</th>
+                    <th scope="col">Endereço</th>
+                    <th scope="col">Cpnj</th>
+                    <th scope="col">Telefone</th>
+                    <th scope="col">Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let instituicao of instituicoesEnsino">
+                    <th scope="row">{{ instituicao.id}}</th>
+                    <td>{{ instituicao.nome  }}</td>
+                    <td>{{ instituicao.endereco }}</td>
+                    <td>{{ instituicao.cpnj | mask : '00.000.000/0000-00' }}</td>
+                    <td>{{ instituicao.telefone | mask: '(00) 00000-0000' }}</td>
+                    <td> <button class="btn btn-primary btn-sm" (click)="update(instituicao.id)">Edit</button>
+                        | <button class="btn btn-danger btn-sm" (click)="desabilitar(instituicao.id)">Desabilitar</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="col-3">
+        <form [formGroup]="instituicaoEnsinoForm" (ngSubmit)="submitForm()">
+            <input type="text" formControlName="id" hidden>
+            <div class="form-group">
+                <label for="nomeInput">Nome</label>
+                <input type="text" formControlName="nome" class="form-control" id="nomeInput"
+                    placeholder="Nome da Instituição">
+            </div>
+            <div class="form-group">
+                <label for="enderecoInput">Endereço</label>
+                <input type="text" class="form-control" formControlName="endereco" id="enderecoInput" placeholder="Rua x Quadra N">
+            </div>
+            <div class="form-group">
+                <label for="cpnjInput">CNPJ</label>
+                <input type="text" class="form-control" formControlName="cpnj" mask="00.000.000/0000-00" id="cpnjInput" placeholder="00.000.000/0000-00">
+            </div>
+            <div class="form-group">
+                <label for="telefoneInput">Telefone</label>
+                <input type="text" class="form-control" id="telefoneInput"  mask="(00) 00000-0000" formControlName="telefone" placeholder="(00) 00000-0000">
+            </div>        
+            <button type="submit" class="btn btn-primary">Salvar</button>
+        </form>
+    </div>
+</div>

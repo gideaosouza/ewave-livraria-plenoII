@@ -1,1 +1,71 @@
-<p>usuario works!</p>
+<div class="p-3">
+    <h4 class="mx-auto">Cadastro de Usuários</h4>
+</div>
+<div class="row">
+    <div class="col-9">
+        <p *ngFor="let alert of alerts">
+            <ngb-alert [type]="alert.type" (close)="close(alert)">{{ alert.message }}</ngb-alert>
+          </p>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Nome</th>
+                    <th scope="col">Endereço</th>
+                    <th scope="col">CPF</th>
+                    <th scope="col">Telefone</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let usuario of usuarios">
+                    <th scope="row">{{ usuario.id}}</th>
+                    <td>{{ usuario.nome  }}</td>
+                    <td>{{ usuario.endereco }}</td>
+                    <td>{{ usuario.cpf  | mask: '000.000.000-00'}}</td>
+                    <td>{{ usuario.telefone | mask: '(00) 00000-0000' }}</td>
+                    <td>{{ usuario.email  }}</td>
+                    <td> <button class="btn btn-primary btn-sm" (click)="update(usuario.id)">Edit</button>
+                        | <button class="btn btn-danger btn-sm" (click)="desabilitar(usuario.id)">Desabilitar</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="col-3">
+        <form [formGroup]="usuarioForm" (ngSubmit)="submitForm()">
+            <input type="text" formControlName="id" hidden>
+            <div class="form-group">
+                <label for="nomeInput">Nome</label>
+                <input type="text" formControlName="nome" class="form-control" id="nomeInput"
+                    placeholder="João da Silva Souza">
+            </div>
+            <div class="form-group">
+                <label for="enderecoInput">Endereço</label>
+                <input type="text" class="form-control" formControlName="endereco" id="enderecoInput" placeholder="Rua x Quadra n">
+            </div>
+            <div class="form-group">
+                <label for="cpfInput">CPF</label>
+                <input type="text" class="form-control" mask="000.000.000-00" formControlName="cpf" id="cpfInput" placeholder="000.000.000-00">
+            </div>
+            <div class="form-group">
+                <label for="telefoneInput">Telefone</label>
+                <input type="text" class="form-control" id="telefoneInput" mask="(00) 00000-0000"  formControlName="telefone" placeholder="(00) 00000-0000">
+            </div>
+            <div class="form-group">
+                <label for="emailInput">Email</label>
+                <input type="e-mail" class="form-control" id="emailInput" formControlName="email" placeholder="exemplo@exemplo.com">
+            </div>
+            <div class="form-group">
+                <label for="telefoneInput">Instituição de Ensino</label>
+                <select class="form-control" (change)="changeInstituicao($event)" formControlName="instituicaoEnsinoId">
+                    <option value="" disabled>Escolha sua Instituição</option>
+                    <option *ngFor="let instituicao of instituicoes" [ngValue]="instituicao.id">{{instituicao.nome}}</option>
+                 </select>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Salvar</button>
+        </form>
+    </div>
+</div>

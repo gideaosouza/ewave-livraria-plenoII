@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Livraria.Api.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/usuario")]
     [ApiController]
     public class UsuarioController : ControllerBase
     {
@@ -29,6 +29,7 @@ namespace Livraria.Api.Controllers
         {
             return usuarioService.GetAll();
         }
+        
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
@@ -39,11 +40,13 @@ namespace Livraria.Api.Controllers
             }
             return Ok(usuarioService.Find(id).Result);
         }
+        
         [HttpPost]
         public Task<Usuario> Post(Usuario obj)
         {
             return usuarioService.Insert(obj);
         }
+       
         [HttpPut("{id}")]
         public async Task<IActionResult> Put(int id, Usuario obj)
         {
@@ -64,6 +67,7 @@ namespace Livraria.Api.Controllers
             await usuarioService.Desabilitar(obj.Result);
             return Ok();
         }
+        
         [HttpGet("habilitar/{idUsuario}")]
         public async Task<IActionResult> Habilitar(int idUsuario)
         {

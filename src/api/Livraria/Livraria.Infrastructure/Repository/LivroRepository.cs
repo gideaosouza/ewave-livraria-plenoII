@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace Livraria.Infrastructure.Repository
 {
@@ -18,14 +19,16 @@ namespace Livraria.Infrastructure.Repository
             this.efContext = efContext;
         }
 
-        public bool LivroPodeSerEmprestado()
+        public bool LivroPodeSerEmprestado(int IdLivro)
         {
-            throw new NotImplementedException();
+            return efContext.EmprestimosLivros.Any(c => c.LivroId == IdLivro && !c.Devolvido && c.Habilitado);
         }
 
-        public Task<Livro> LivrosDisponiveis()
+        public List<Livro> LivrosDisponiveis()
         {
-            throw new NotImplementedException();
+            var livrosEmprestados = efContext.EmprestimosLivros.Where(v => !v.Devolvido).Include(q => q.Livro).Select(x => x.Livro).ToList();
+            var livrosHabilitados = GetAll().Result.ToList();
+            return livrosHabilitados.Except(livrosEmprestados).ToList();
         }
     }
 }

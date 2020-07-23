@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Livro } from '../model/livro';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { InstituicaoEnsino } from '../model/instituicao-ensino';
 
 @Injectable({
     providedIn: 'root'
 })
-export class LivroService {
+export class InstituicaoEnsinoService {
 
     private apiServer = "https://localhost:44322/api";
 
@@ -17,10 +17,9 @@ export class LivroService {
             'Content-Type': 'application/json'
         })
     }
-
     
     desabilitar(id): Observable<void> {
-        return this.httpClient.get<void>(this.apiServer + '/Livro/Desabilitar/' + id)
+        return this.httpClient.get<void>(this.apiServer + '/instituicao-ensino/Desabilitar/' + id)
         .pipe(
             catchError(this.errorHandler)
         )
@@ -28,34 +27,34 @@ export class LivroService {
 
         
     habilitar(id): Observable<void> {
-        return this.httpClient.get<void>(this.apiServer + '/Livro/Habilitar/' + id, this.httpOptions)
+        return this.httpClient.get<void>(this.apiServer + '/instituicao-ensino/Habilitar/' + id, this.httpOptions)
             .pipe(
                 catchError(this.errorHandler)
             )
     }
 
-    create(livro): Observable<Livro> {
-        return this.httpClient.post<Livro>(this.apiServer + '/Livro/', JSON.stringify(livro), this.httpOptions)
+    create(instituicao): Observable<InstituicaoEnsino> {
+        return this.httpClient.post<InstituicaoEnsino>(this.apiServer + '/instituicao-ensino/', JSON.stringify(instituicao), this.httpOptions)
             .pipe(
                 catchError(this.errorHandler)
             )
     }
-    getById(id): Observable<Livro> {
-        return this.httpClient.get<Livro>(this.apiServer + '/Livro/' + id)
-            .pipe(
-                catchError(this.errorHandler)
-            )
-    }
-
-    getAll(): Observable<Livro[]> {
-        return this.httpClient.get<Livro[]>(this.apiServer + '/Livro/')
+    getById(id): Observable<InstituicaoEnsino> {
+        return this.httpClient.get<InstituicaoEnsino>(this.apiServer + '/instituicao-ensino/' + id)
             .pipe(
                 catchError(this.errorHandler)
             )
     }
 
-    update(id, livro): Observable<Livro> {
-        return this.httpClient.put<Livro>(this.apiServer + '/Livro/' + id, JSON.stringify(livro), this.httpOptions)
+    getAll(): Observable<InstituicaoEnsino[]> {
+        return this.httpClient.get<InstituicaoEnsino[]>(this.apiServer + '/instituicao-ensino/')
+            .pipe(
+                catchError(this.errorHandler)
+            )
+    }
+
+    update(id, instituicao): Observable<InstituicaoEnsino> {
+        return this.httpClient.put<InstituicaoEnsino>(this.apiServer + '/instituicao-ensino/' + id, JSON.stringify(instituicao), this.httpOptions)
             .pipe(
                 catchError(this.errorHandler)
             )

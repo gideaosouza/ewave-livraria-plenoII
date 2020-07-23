@@ -13,6 +13,5 @@ namespace Livraria.Domain.Entities
         public virtual InstituicaoEnsino InstituicaoEnsino { get; set; }
         public string Telefone { get; set; }
         public string Email { get; set; }
-        public List<EmprestimoLivro> EmprestimoLivro { get; set; }
     }
 }

@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Livraria.Api.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/instituicao-ensino")]
     [ApiController]
     public class InstituicaoEnsinoController : ControllerBase
     {
@@ -29,6 +29,7 @@ namespace Livraria.Api.Controllers
         {
             return instituicaoEnsinoService.GetAll();
         }
+        
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
@@ -39,11 +40,13 @@ namespace Livraria.Api.Controllers
             }
             return Ok(instituicaoEnsinoService.Find(id).Result);
         }
+       
         [HttpPost]
         public Task<InstituicaoEnsino> Post(InstituicaoEnsino obj)
         {
             return instituicaoEnsinoService.Insert(obj);
         }
+        
         [HttpPut("{id}")]
         public async Task<IActionResult> Put(int id, InstituicaoEnsino obj)
         {
@@ -64,6 +67,7 @@ namespace Livraria.Api.Controllers
             await instituicaoEnsinoService.Desabilitar(obj.Result);
             return Ok();
         }
+        
         [HttpGet("habilitar/{idInstituicaoEnsino}")]
         public async Task<IActionResult> Habilitar(int idInstituicaoEnsino)
         {

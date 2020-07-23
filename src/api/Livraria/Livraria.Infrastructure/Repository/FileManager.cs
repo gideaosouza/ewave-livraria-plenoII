@@ -19,6 +19,13 @@ namespace Livraria.Infrastructure.Repository
             return false;
         }
 
+        /// <summary>
+        /// A forma de salvamente em disco é rudimentar não se pega um caminho exato, se a aplicação for usada diretamente do repositorio irá funcionar. 
+        /// </summary>
+        /// <param name="fileStream"></param>
+        /// <param name="folder"></param>
+        /// <param name="format"></param>
+        /// <returns></returns>
         public string SaveFile(MemoryStream fileStream, string folder, string format)
         {
             if (fileStream == null)

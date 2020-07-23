@@ -7,5 +7,6 @@ namespace Livraria.Application.Interfaces
 {
     public interface ILivroService : IServiceBase<Livro>
     {
+        bool LivroPodeSerEmprestado(int IdLivro);
     }
 }

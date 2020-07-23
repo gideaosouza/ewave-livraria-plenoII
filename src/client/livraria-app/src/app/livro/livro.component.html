@@ -2,7 +2,7 @@
     <h4 class="mx-auto">Cadastro de Livros</h4>
 </div>
 <div class="row">
-    <div class="col-8">
+    <div class="col-9">
         <p *ngFor="let alert of alerts">
             <ngb-alert [type]="alert.type" (close)="close(alert)">{{ alert.message }}</ngb-alert>
           </p>
@@ -35,7 +35,7 @@
             </tbody>
         </table>
     </div>
-    <div class="col-4">
+    <div class="col-3">
         <form [formGroup]="livroForm" (ngSubmit)="submitForm()">
             <input type="text" formControlName="id" hidden>
             <div class="form-group">

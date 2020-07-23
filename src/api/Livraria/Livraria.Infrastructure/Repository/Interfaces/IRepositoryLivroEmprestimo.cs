@@ -12,7 +12,7 @@ namespace Livraria.Infrastructure.Repository.Interfaces
         /// Informar ao Administrador do Sistema caso um livro extrapole o prazo máximo de dias emprestado
         /// </summary>
         /// <returns></returns>
-        List<Livro> LivrosComPrazoExtrapolado();
+        Task<IEnumerable<EmprestimoLivro>> LivrosComPrazoExtrapolado();
         Task EfetuarDevolucao(int IdEmprestimo);
         bool UsuarioAtingiuLimiteEmprestimo(int IdUsuario);
     }

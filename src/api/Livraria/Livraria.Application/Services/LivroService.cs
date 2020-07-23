@@ -42,6 +42,11 @@ namespace Livraria.Application.Services
             return repositoryLivro.Insert(obj);
         }
 
+        public bool LivroPodeSerEmprestado(int IdLivro)
+        {
+            return repositoryLivro.LivroPodeSerEmprestado(IdLivro);
+        }
+
         public async Task Update(int id, Livro obj)
         {
             var objOri = repositoryLivro.Find(id).Result;
@@ -56,9 +61,9 @@ namespace Livraria.Application.Services
             await repositoryLivro.Update(objOri);
         }
 
-        public Task<IEnumerable<Livro>> Where(Expression<Func<Livro, bool>> predicate)
+        public async Task<IEnumerable<Livro>> Where(Expression<Func<Livro, bool>> predicate)
         {
-            return repositoryLivro.Where(predicate);
+            return await repositoryLivro.Where(predicate);
         }
     }
 }

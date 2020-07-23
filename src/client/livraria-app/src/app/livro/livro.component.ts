@@ -3,7 +3,7 @@ import { Livro } from '../model/livro';
 import { LivroService } from '../services/livro.service';
 import { FileService } from '../services/file.service';
 import { FormGroup, FormBuilder } from '@angular/forms';
-import { ErrosLivro } from '../model/erro.response';
+import { ErrosLivro } from '../model/erros/livro.response.erro';
 
 interface Alert {
   type: string;
@@ -89,17 +89,16 @@ export class LivroComponent implements OnInit {
       })
       return;
     }else  if (this.fileToUpload != null) {
-
       this.fileService.postFile(this.fileToUpload).subscribe(data => {
         this.livroForm.controls.capa.setValue(data.path);
         if (this.livroForm.controls.id.value == 0)
           this.adiciona()
         else
           this.atualiza();
-
       }, error => {
         console.log(error);
       });
+
     } else {
 
       console.log('asdasd')

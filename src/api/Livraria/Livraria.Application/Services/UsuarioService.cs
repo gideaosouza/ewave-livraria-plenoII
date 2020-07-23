@@ -42,14 +42,24 @@ namespace Livraria.Application.Services
             return repositoryUsuario.Insert(obj);
         }
 
-        public Task Update(int id, Usuario obj)
+        public async Task Update(int id, Usuario obj)
         {
-            return repositoryUsuario.Update(obj);
+            var objOri = repositoryUsuario.Find(id).Result;
+
+            objOri.CPF = obj.CPF;
+            objOri.Email = obj.Email;
+            objOri.Habilitado = obj.Habilitado;
+            objOri.Endereco = obj.Endereco;
+            objOri.InstituicaoEnsinoId = obj.InstituicaoEnsinoId;
+            objOri.Nome = obj.Nome;
+            objOri.Telefone = obj.Telefone;
+
+            await repositoryUsuario.Update(objOri);
         }
 
-        public Task<IEnumerable<Usuario>> Where(Expression<Func<Usuario, bool>> predicate)
+        public async Task<IEnumerable<Usuario>> Where(Expression<Func<Usuario, bool>> predicate)
         {
-            return repositoryUsuario.Where(predicate);
+            return await repositoryUsuario.Where(predicate);
         }
     }
 }

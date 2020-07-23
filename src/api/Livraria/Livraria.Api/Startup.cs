@@ -44,7 +44,9 @@ namespace Livraria.Api
                 builder.WithOrigins(Configuration.GetValue<string>("AngularClient")).AllowAnyMethod().AllowAnyHeader();
             }));
 
-            services.AddControllers();
+            services.AddControllers().AddNewtonsoftJson(options =>
+                        options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+                    );
 
             //Services
             services.AddTransient<IInstituicaoEnsinoService, InstituicaoEnsinoService>();

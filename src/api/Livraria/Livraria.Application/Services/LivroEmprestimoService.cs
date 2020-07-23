@@ -50,14 +50,21 @@ namespace Livraria.Application.Services
             return repositoryLivroEmprestimo.Insert(obj);
         }
 
-        public List<Livro> LivrosComPrazoExtrapolado()
+        public async Task<IEnumerable<EmprestimoLivro>> LivrosComPrazoExtrapolado()
         {
-            return repositoryLivroEmprestimo.LivrosComPrazoExtrapolado();
+            return await repositoryLivroEmprestimo.LivrosComPrazoExtrapolado();
         }
 
-        public Task Update(int id, EmprestimoLivro obj)
+        public async Task Update(int id, EmprestimoLivro obj)
         {
-            return repositoryLivroEmprestimo.Update(obj);
+            var objOri = repositoryLivroEmprestimo.Find(id).Result;
+
+            objOri.UsuarioId = obj.UsuarioId;
+            objOri.LivroId = obj.LivroId;
+            objOri.Habilitado = obj.Habilitado;
+            objOri.DataDevolucao = obj.DataDevolucao;
+
+            await repositoryLivroEmprestimo.Update(objOri);
         }
 
         public bool UsuarioAtingiuLimiteEmprestimo(int IdUsuario)
@@ -65,9 +72,9 @@ namespace Livraria.Application.Services
             return repositoryLivroEmprestimo.UsuarioAtingiuLimiteEmprestimo(IdUsuario);
         }
 
-        public Task<IEnumerable<EmprestimoLivro>> Where(Expression<Func<EmprestimoLivro, bool>> predicate)
+        public async Task<IEnumerable<EmprestimoLivro>>  Where(Expression<Func<EmprestimoLivro, bool>> predicate)
         {
-            return repositoryLivroEmprestimo.Where(predicate);
+            return await repositoryLivroEmprestimo.Where(predicate);
         }
     }
 }

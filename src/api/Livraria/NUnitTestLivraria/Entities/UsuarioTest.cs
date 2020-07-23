@@ -17,23 +17,23 @@ namespace NUnitTestLivraria
         }
 
         [Test]
-        public void aprensenta_erro_quando_titulo_for_nulo()
+        public void aprensenta_erro_quando_nome_for_nulo()
         {
             validator.ShouldHaveValidationErrorFor(usuario => usuario.Nome, null as string);
         }
         [Test]
-        public void aprensenta_erro_quando_genero_for_nulo()
+        public void aprensenta_erro_quando_telefone_for_nulo()
         {
             validator.ShouldHaveValidationErrorFor(usuario => usuario.Telefone, null as string);
         }
         [Test]
-        public void aprensenta_erro_quando_autor_for_nulo()
+        public void aprensenta_erro_quando_cpf_for_nulo()
         {
             validator.ShouldHaveValidationErrorFor(usuario => usuario.CPF, null as string);
         }
 
         [Test]
-        public void aprensenta_erro_quando_Capa_for_nulo()
+        public void aprensenta_erro_quando_email_for_nulo()
         {
             validator.ShouldHaveValidationErrorFor(usuario => usuario.Email, null as string);
         }
@@ -41,27 +41,27 @@ namespace NUnitTestLivraria
 
 
         [Test]
-        public void nao_apresenta_erro_quando_titulo_estiver_correto()
+        public void nao_apresenta_erro_quando_nome_estiver_correto()
         {
             validator.ShouldNotHaveValidationErrorFor(usuario => usuario.Nome, "Semente da Vitória");
         }
 
         [Test]
-        public void nao_apresenta_erro_quando_genero_estiver_correto()
+        public void nao_apresenta_erro_quando_telefone_estiver_correto()
         {
             validator.ShouldNotHaveValidationErrorFor(usuario => usuario.Telefone, "Auto Ajuda");
         }
 
         [Test]
-        public void nao_apresenta_erro_quando_autor_estiver_correto()
+        public void nao_apresenta_erro_quando_cpf_estiver_correto()
         {
             validator.ShouldNotHaveValidationErrorFor(usuario => usuario.CPF, "Nulo Cobra");
         }
 
         [Test]
-        public void nao_apresenta_erro_quando_capa_estiver_correto()
+        public void nao_apresenta_erro_quando_email_estiver_correto()
         {
-            validator.ShouldNotHaveValidationErrorFor(usuario => usuario.Email, "");
+            validator.ShouldNotHaveValidationErrorFor(usuario => usuario.Email, "Email@Email.com");
         }
     }
 }

@@ -6,9 +6,8 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using System.Linq;
+using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
-using Livraria.Domain.Validations;
-using FluentValidation;
 
 namespace Livraria.Infrastructure.Repository
 {
@@ -27,12 +26,24 @@ namespace Livraria.Infrastructure.Repository
             obj.Devolvido = true;
             return Update(obj);
         }
+        
         public bool UsuarioAtingiuLimiteEmprestimo(int IdUsuario) {
-            return Where(c => c.UsuarioId == IdUsuario && c.Devolvido == false).Result.Count() >= 2;
+            return Where(c => c.UsuarioId == IdUsuario && !c.Devolvido && c.Habilitado).Result.Count() >= 2;
         }
-        public List<Livro> LivrosComPrazoExtrapolado()
+        
+        public async Task<IEnumerable<EmprestimoLivro>> LivrosComPrazoExtrapolado()
         {
-            return Where(c => c.DataDevolucao > DateTime.Today).Result.Select(c => c.Livro).ToList();
+            return await _efContext.EmprestimosLivros.Include(c => c.Livro).Include(c => c.Usuario).Where(c => c.DataDevolucao < DateTime.Today).ToListAsync().ConfigureAwait(false);
+        }
+        
+        public async Task<IEnumerable<EmprestimoLivro>> Where(Expression<Func<EmprestimoLivro, bool>> predicate)
+        {
+            return await _efContext.EmprestimosLivros.Include(c => c.Livro).Include(c => c.Usuario).Where(predicate).ToListAsync().ConfigureAwait(false);
+        }
+        
+        public override async Task<IEnumerable<EmprestimoLivro>> GetAll()
+        {
+            return await _efContext.EmprestimosLivros.Where(c => c.Habilitado).Include(c=>c.Livro).Include(c=>c.Usuario).ToListAsync().ConfigureAwait(false);
         }
     }
 }

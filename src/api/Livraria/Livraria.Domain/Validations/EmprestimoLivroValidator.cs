@@ -10,8 +10,8 @@ namespace Livraria.Domain.Validations
     {
         public EmprestimoLivroValidator()
         {
-            RuleFor(c => c.UsuarioId).NotEqual(0).WithMessage("O Id do Usuário não foi informado");
-            RuleFor(c => c.LivroId).NotEqual(0).WithMessage("O Id do Livro não foi informado");
+            RuleFor(c => c.UsuarioId).NotEqual(0).WithMessage("O Usuário não foi informado");
+            RuleFor(c => c.LivroId).NotEqual(0).WithMessage("O Livro não foi informado");
             RuleFor(c => c.DataDevolucao).NotNull().WithMessage("A data de devolução não foi informada")
                 .GreaterThan(DateTime.Today).WithMessage("A data de devolução não deve ser antes de hoje.")
                 .LessThan(DateTime.Today.AddDays(30)).WithMessage("A data de devolução não deve ser superior a 30 dias");

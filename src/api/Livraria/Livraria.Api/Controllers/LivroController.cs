@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Livraria.Api.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/livro")]
     [ApiController]
     public class LivroController : ControllerBase
     {
@@ -32,6 +32,7 @@ namespace Livraria.Api.Controllers
         {
             return livroService.GetAll();
         }
+       
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
@@ -42,11 +43,13 @@ namespace Livraria.Api.Controllers
             }
             return Ok(livroService.Find(id).Result);
         }
+        
         [HttpPost]
         public Task<Livro> Post(Livro obj)
         {
             return livroService.Insert(obj);
         }
+       
         [HttpPut("{id}")]
         public async Task<IActionResult> Put(int id, Livro obj)
         {
@@ -67,6 +70,7 @@ namespace Livraria.Api.Controllers
             await livroService.Desabilitar(obj.Result);
             return Ok();
         }
+        
         [HttpGet("habilitar/{idLivro}")]
         public async Task<IActionResult> Habilitar(int idLivro)
         {
@@ -74,8 +78,6 @@ namespace Livraria.Api.Controllers
             await livroService.Habilitar(obj.Result);
             return Ok();
         }
-
-
 
         /// <summary>
         /// Esse metodo foi criado de maneira simples, apenas para atender um dos requisitos, caso tivesse mais tempo, faria-o por meio de uma entidade, fazer verificações de formato e tamanho..

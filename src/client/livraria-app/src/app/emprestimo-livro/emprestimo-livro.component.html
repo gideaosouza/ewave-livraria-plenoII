@@ -1,1 +1,65 @@
-<p>emprestimo-livro works!</p>
+<div class="p-3">
+    <h4 class="mx-auto">Emprestimos de livros</h4>
+</div>
+<div class="row">
+    <div class="col-9">
+        <p *ngFor="let alert of alerts">
+            <ngb-alert [type]="alert.type" (close)="close(alert)">{{ alert.message }}</ngb-alert>
+          </p>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Data de Devolução</th>
+                    <th scope="col">Devolvido</th>
+                    <th scope="col">Livro</th>
+                    <th scope="col">Usuário</th>
+                    <th scope="col">Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let emprestimo of emprestimosLivros">
+                    <th scope="row">{{ emprestimo.id}}</th>
+                    <td>{{ emprestimo.dataDevolucao  | date: 'dd/MM/yyyy' }}</td>
+                    <td>{{ emprestimo.devolvido ? 'Sim' : 'Não' }}</td>
+                    <td>{{ emprestimo.livro?.titulo  }}</td>
+                    <td>{{ emprestimo.usuario?.nome  }}</td>
+                    <td> <button class="btn btn-primary btn-sm" (click)="update(emprestimo.id)">Edit</button>
+                        | <button class="btn btn-danger btn-sm" (click)="desabilitar(emprestimo.id)">Desabilitar</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="col-3">
+        <form [formGroup]="emprestimoLivroForm" (ngSubmit)="submitForm()">
+            <input type="text" formControlName="id" hidden>
+           
+            <div class="form-group">
+                <label for="telefoneInput">Devolvido</label>
+                <input type="checkbox" formControlName="devolvido">
+            </div>
+            <div class="form-group">
+                <label for="dataDevolucaoInput">Data Devolução</label>
+                <input type="date" class="form-control" id="dataDevolucaoInput" formControlName="dataDevolucao" placeholder="">
+            </div>
+            <div class="form-group">
+                <label for="telefoneInput">Livro</label>
+                <select class="form-control" (change)="changeLivro($event)" formControlName="livroId">
+                    <option value="" disabled>Escolha um livro</option>
+                    <option *ngFor="let livro of livros" [ngValue]="livro.id">{{livro.titulo}}</option>
+                 </select>
+            </div>
+            <div class="form-group">
+                <label for="telefoneInput">Usuário</label>
+                <select class="form-control" (change)="changeUsuario($event)" formControlName="usuarioId">
+                    <option value="" disabled>Escolha um usuário</option>
+                    <option *ngFor="let usuario of usuarios" [ngValue]="usuario.id">{{usuario.nome}}</option>
+                 </select>
+            </div>
+
+
+            <button type="submit" class="btn btn-primary">Salvar</button>
+        </form>
+    </div>
+</div>

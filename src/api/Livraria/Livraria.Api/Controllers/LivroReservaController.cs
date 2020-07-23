@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Livraria.Api.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/reserva-livro")]
     [ApiController]
     public class LivroReservaController : ControllerBase
     {
@@ -29,6 +29,7 @@ namespace Livraria.Api.Controllers
         {
             return livroReservaService.GetAll();
         }
+       
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
@@ -39,11 +40,13 @@ namespace Livraria.Api.Controllers
             }
             return Ok(livroReservaService.Find(id).Result);
         }
+        
         [HttpPost]
         public Task<LivroReserva> Post(LivroReserva obj)
         {
             return livroReservaService.Insert(obj);
         }
+        
         [HttpPut("{id}")]
         public async Task<IActionResult> Put(int id, LivroReserva obj)
         {
@@ -64,6 +67,7 @@ namespace Livraria.Api.Controllers
             await livroReservaService.Desabilitar(obj.Result);
             return Ok();
         }
+        
         [HttpGet("habilitar/{idLivroReserva}")]
         public async Task<IActionResult> Habilitar(int idLivroReserva)
         {

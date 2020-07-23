@@ -58,9 +58,9 @@ namespace Livraria.Application.Services
             await instituicaoEnsinoRepository.Update(objOri);
         }
 
-        public Task<IEnumerable<InstituicaoEnsino>> Where(Expression<Func<InstituicaoEnsino, bool>> predicate)
+        public async Task<IEnumerable<InstituicaoEnsino>> Where(Expression<Func<InstituicaoEnsino, bool>> predicate)
         {
-            return instituicaoEnsinoRepository.Where(predicate);
+            return await instituicaoEnsinoRepository.Where(predicate);
         }
     }
 }
