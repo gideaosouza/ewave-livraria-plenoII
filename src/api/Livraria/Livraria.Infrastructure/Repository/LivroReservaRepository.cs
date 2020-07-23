@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Linq;
 using System.Linq.Expressions;
+using Microsoft.EntityFrameworkCore;
 
 namespace Livraria.Infrastructure.Repository
 {
@@ -19,9 +20,9 @@ namespace Livraria.Infrastructure.Repository
             this.efContext = efContext;
         }
 
-        public bool LivroPodeSerEmprestado(int idLivro)
+        public override async Task<IEnumerable<LivroReserva>> GetAll()
         {
-            throw new NotImplementedException();
+            return await efContext.ReservasLivros.Where(c => c.Habilitado).Include(c => c.Livro).Include(c => c.Usuario).ToListAsync().ConfigureAwait(false);
         }
     }
 }

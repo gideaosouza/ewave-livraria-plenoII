@@ -63,6 +63,7 @@ namespace Livraria.Application.Services
             objOri.LivroId = obj.LivroId;
             objOri.Habilitado = obj.Habilitado;
             objOri.DataDevolucao = obj.DataDevolucao;
+            objOri.Devolvido = obj.Devolvido;
 
             await repositoryLivroEmprestimo.Update(objOri);
         }

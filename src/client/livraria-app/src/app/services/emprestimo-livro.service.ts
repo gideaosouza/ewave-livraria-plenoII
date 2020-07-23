@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { EmprestimoLivro } from '../model/eprestimo-livro';
+import { EmprestimoLivro } from '../model/emprestimo-livro';
 
 @Injectable({
     providedIn: 'root'
@@ -33,8 +33,8 @@ export class EmprestimoLivroService {
             )
     }
 
-    create(usuario): Observable<EmprestimoLivro> {
-        return this.httpClient.post<EmprestimoLivro>(this.apiServer + '/emprestimo-livro/', JSON.stringify(usuario), this.httpOptions)
+    create(emprestimo): Observable<EmprestimoLivro> {
+        return this.httpClient.post<EmprestimoLivro>(this.apiServer + '/emprestimo-livro/', JSON.stringify(emprestimo), this.httpOptions)
             .pipe(
                 catchError(this.errorHandler)
             )
@@ -52,16 +52,16 @@ export class EmprestimoLivroService {
                 catchError(this.errorHandler)
             )
     }
-    getAll(): Observable<EmprestimoLivro[]> {
+    getLivrosComPrazoExtrapolado(): Observable<EmprestimoLivro[]> {
         return this.httpClient.get<EmprestimoLivro[]>(this.apiServer + '/emprestimo-livro/livros-com-prazo-extrapolado')
             .pipe(
                 catchError(this.errorHandler)
             )
-    }
-    
+    }    
 
-    update(id, usuario): Observable<EmprestimoLivro> {
-        return this.httpClient.put<EmprestimoLivro>(this.apiServer + '/emprestimo-livro/' + id, JSON.stringify(usuario), this.httpOptions)
+    update(id, emprestimo): Observable<EmprestimoLivro> {
+        console.log(emprestimo)
+        return this.httpClient.put<EmprestimoLivro>(this.apiServer + '/emprestimo-livro/' + id, JSON.stringify(emprestimo), this.httpOptions)
             .pipe(
                 catchError(this.errorHandler)
             )

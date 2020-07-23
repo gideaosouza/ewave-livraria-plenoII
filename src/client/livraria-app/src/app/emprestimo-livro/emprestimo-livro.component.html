@@ -1,11 +1,23 @@
 <div class="p-3">
     <h4 class="mx-auto">Emprestimos de livros</h4>
 </div>
+
+<div *ngIf="livrosEmprestadosComPrazoExtrapolado?.length > 0 && !exibeLivroExtrapoladoAlert">
+    <ngb-alert *ngIf="!exibeLivroExtrapoladoAlert" type="warning" (close)="exibeLivroExtrapoladoAlert = true">Atenção!
+        Há Livros com prazos extrapolados</ngb-alert>
+    <div *ngFor="let livro of livrosEmprestadosComPrazoExtrapolado">
+        <ngb-alert [dismissible]="false" type="warning">
+            No dia {{ livro.dataCadastramento | date: 'dd/MM/yyyy'}} o usuario {{ livro.usuario.nome }} pegou o livro
+            {{ livro.livro.titulo }}
+            para devolver em {{ livro.dataDevolucao | date: 'dd/MM/yyyy'}}
+        </ngb-alert>
+    </div>
+</div>
 <div class="row">
     <div class="col-9">
         <p *ngFor="let alert of alerts">
             <ngb-alert [type]="alert.type" (close)="close(alert)">{{ alert.message }}</ngb-alert>
-          </p>
+        </p>
         <table class="table table-striped">
             <thead>
                 <tr>
@@ -25,7 +37,8 @@
                     <td>{{ emprestimo.livro?.titulo  }}</td>
                     <td>{{ emprestimo.usuario?.nome  }}</td>
                     <td> <button class="btn btn-primary btn-sm" (click)="update(emprestimo.id)">Edit</button>
-                        | <button class="btn btn-danger btn-sm" (click)="desabilitar(emprestimo.id)">Desabilitar</button>
+                        | <button class="btn btn-danger btn-sm"
+                            (click)="desabilitar(emprestimo.id)">Desabilitar</button>
                     </td>
                 </tr>
             </tbody>
@@ -34,28 +47,29 @@
     <div class="col-3">
         <form [formGroup]="emprestimoLivroForm" (ngSubmit)="submitForm()">
             <input type="text" formControlName="id" hidden>
-           
+
             <div class="form-group">
                 <label for="telefoneInput">Devolvido</label>
                 <input type="checkbox" formControlName="devolvido">
             </div>
             <div class="form-group">
                 <label for="dataDevolucaoInput">Data Devolução</label>
-                <input type="date" class="form-control" id="dataDevolucaoInput" formControlName="dataDevolucao" placeholder="">
+                <input type="date" class="form-control" id="dataDevolucaoInput" formControlName="dataDevolucao"
+                    placeholder="">
             </div>
             <div class="form-group">
                 <label for="telefoneInput">Livro</label>
                 <select class="form-control" (change)="changeLivro($event)" formControlName="livroId">
                     <option value="" disabled>Escolha um livro</option>
                     <option *ngFor="let livro of livros" [ngValue]="livro.id">{{livro.titulo}}</option>
-                 </select>
+                </select>
             </div>
             <div class="form-group">
                 <label for="telefoneInput">Usuário</label>
                 <select class="form-control" (change)="changeUsuario($event)" formControlName="usuarioId">
                     <option value="" disabled>Escolha um usuário</option>
                     <option *ngFor="let usuario of usuarios" [ngValue]="usuario.id">{{usuario.nome}}</option>
-                 </select>
+                </select>
             </div>
 
 
